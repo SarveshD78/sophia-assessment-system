@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Virtual Interview - Sign Up</title>
+</head>
+
+<body id="grad1">
+    <!-- Display messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+<div class="container">
+
+    <!-- Dynamic Background Design Starts-->
+    <div id="margin1">
+        <div id="page1"></div>
+        <div id="box1"></div>
+        <div id="box2"></div>
+        <div id="box3"></div>
+        <div id="box4"></div>
+        <div id="box5"></div>
+        <div id="logo1" style="height: 7vh;width: 7vh;">
+            <img src="{% static 'images/fav.png' %}">
+        </div>
+    </div>
+    <!-- Dynamic Background Design Ends-->
+
+    <!--Page Content1 Starts-->
+    <div id="infoBox">
+        <h1 id="header1">Sign Up</h1>
+        <form action="{% url 'signup' %}" method="POST">
+            {% csrf_token %}
+            
+        <span id="span1">
+            <span id="underl1">
+                {{ form.username }}
+                <i class="fas fa-user" id="unImg1"></i>
+            </span>
+        </span>
+        
+        <!-- Display username errors -->
+        {% if form.username.errors %}
+            <span id="span1" style="justify-content: start;margin-left: 7vw;">
+                {% for error in form.username.errors %}
+                    <i class="fas fa-exclamation-circle" id="crtImg1"></i>
+                    <p id="info1" style="color: red;">{{ error }}</p>
+                {% endfor %}
+            </span>
+        {% else %}
+            <span id="span1" style="justify-content: start;margin-left: 7vw;">
+                <i class="fas fa-info-circle" id="crtImg1"></i>
+                <p id="info1">Required 150 characters or fewer (Letters, digits and @/./+/-/_ only)</p>
+            </span>
+        {% endif %}
+
+        <span id="span1">
+            <span id="underl2">{{ form.first_name }}</span>
+            <span id="underl2">{{ form.last_name }}</span>
+        </span>
+
+        <span id="span1">
+            <span id="underl1">
+                {{ form.email }}
+                <i class="fas fa-envelope" id="elImg1"></i>
+            </span>
+        </span>
+        
+        <!-- Display email errors -->
+        {% if form.email.errors %}
+            <span id="span1" style="justify-content: start;margin-left: 7vw;">
+                {% for error in form.email.errors %}
+                    <i class="fas fa-exclamation-circle" id="crtImg1"></i>
+                    <p id="info1" style="color: red;">{{ error }}</p>
+                {% endfor %}
+            </span>
+        {% endif %}
+
+        <span id="span1">
+            <span id="underl1">
+                {{ form.password1 }}
+                <i class="fas fa-lock" id="psImg1"></i>
+            </span>
+        </span>
+
+        <!-- Display password1 errors -->
+        {% if form.password1.errors %}
+            <span id="span1" style="justify-content: start;margin-left: 7vw;">
+                {% for error in form.password1.errors %}
+                    <i class="fas fa-exclamation-circle" id="crtImg1"></i>
+                    <p id="info1" style="color: red;">{{ error }}</p>
+                {% endfor %}
+            </span>
+        {% else %}
+            <span id="span1" style="justify-content: start;margin-left: 7vw;">
+                <i class="fas fa-info-circle" id="crtImg1"></i>
+                <p id="info1">Can't be similar to personal info</p>
+                <i class="fas fa-info-circle" id="crtImg1"></i>
+                <p id="info1">Can't be a commonly used</p>
+            </span>
+
+            <span id="span1" style="justify-content: start;margin-left: 7vw;">
+                <i class="fas fa-info-circle" id="crtImg1"></i>
+                <p id="info1">Contain at least 8 characters</p>
+                <i class="fas fa-info-circle" id="crtImg1"></i>
+                <p id="info1">Can't be entirely numeric</p>
+            </span>
+        {% endif %}
+
+        <span id="span1">
+            <span id="underl1">
+                {{ form.password2 }}
+                <i class="fas fa-lock" id="cpImg1"></i>
+            </span>
+        </span>
+
+        <!-- Display password2 errors -->
+        {% if form.password2.errors %}
+            <span id="span1" style="justify-content: start;margin-left: 7vw;">
+                {% for error in form.password2.errors %}
+                    <i class="fas fa-exclamation-circle" id="crtImg1"></i>
+                    <p id="info1" style="color: red;">{{ error }}</p>
+                {% endfor %}
+            </span>
+        {% else %}
+            <span id="span1" style="justify-content: start;margin-left: 7vw;">
+                <i class="fas fa-info-circle" id="crtImg1"></i>
+                <p id="info1">Enter the same password to confirm verification</p>
+            </span>
+        {% endif %}
+
+        <br>
+
+        <span id="span1">
+            <button type="submit" id="btn1" style="height: 4vh;">
+                <p id="btnLbl1">Register</p>
+                <span style="display: inline-block;width: 35%;"></span>
+                <i class="fas fa-arrow-right" id="btImg1"></i>
+                <span style="display: inline-block;width: 5%;"></span>
+            </button>
+        </span>
+        </form>
+
+        <span id="span1">
+            <p id="lbl2">Already have an Account?</p><a href="{% url 'login' %}" id="aref2">Sign In</a>
+        </span>
+
+    </div>
+    <!--Page Content1 Ends-->
+
+    <!--Page Content2 Starts-->
+    <div id="wlcmBox">
+        
+        <span id="span1">
+            <div id="wlLbl1">Welcome to</div>
+        </span>
+       <br>
+
+        <span id="span1">
+            <div id="viLbl1">Virtual Interview</div>
+        </span>
+        <br><br><br>
+
+        <span id="span1">
+            <div id="sgnLbl1">By Signing up, you agree with Perfect Skills</div>
+        </span>
+        <br>
+        <span id="span1">
+            <a href="#" id="aref3">Terms & Conditions</a>
+            <div id="anLbl1">and</div>
+            <a href="#" id="aref4">Privacy Policy</a>
+        </span>
+    </div>
+    <!--Page Content2 Ends-->
+
+</div>
+    
+</body>
+</html>

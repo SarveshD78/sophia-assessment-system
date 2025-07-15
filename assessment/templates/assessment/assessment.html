@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'image/fav.png' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <title>{{ assessment_name }} - Assessment</title>
+
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+            color: #333;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        /* Header */
+        .assessment-header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .assessment-name {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .btn-danger-custom {
+            border-radius: 25px;
+            background-image: linear-gradient(to right, #8B2707, #C62B09);
+            color: #ffffff;
+            border: none;
+            padding: 8px 20px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 39, 7, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Main Layout */
+        .main-container {
+            height: calc(100vh - 150px);
+            padding: 0 2rem;
+        }
+
+        .left-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            height: 100%;
+            border: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .right-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        /* Rules Section - BEFORE START */
+        .rules-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .rules-title {
+            color: #120599;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rules-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            flex: 1;
+        }
+
+        .rules-list li {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #9109C5;
+            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border: 1px solid #e9ecef;
+        }
+
+        .rule-icon {
+            background: linear-gradient(135deg, #120599, #9109C5);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Question Section - AFTER START */
+        .question-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #9109C5;
+            flex: 1;
+            border: 1px solid #e9ecef;
+        }
+
+        .question-container h5 {
+            color: #120599;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question-text {
+            color: #333;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Video Section */
+        .video-container {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        #video {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            border: 3px solid #120599;
+            background: #000;
+            box-shadow: 0 8px 25px rgba(18, 5, 153, 0.15);
+        }
+
+        /* Buttons */
+        .action-buttons {
+            margin-top: auto;
+            padding-top: 2rem;
+        }
+
+        .btn-custom {
+            border-radius: 25px;
+            background-image: linear-gradient(to right, #120599, #9109C5);
+            color: #ffffff;
+            border: none;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(18, 5, 153, 0.2);
+        }
+
+        .btn-custom:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(18, 5, 153, 0.3);
+        }
+
+        .btn-custom:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Success Popup */
+        .popup-window {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        }
+
+        .popup-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .popup-box h3 {
+            color: #120599;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .popup-box p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .powered-by {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            color: #666;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                height: auto;
+                padding: 0 1rem;
+            }
+            
+            .left-panel, .right-panel {
+                margin-bottom: 2rem;
+                height: auto;
+            }
+            
+            #video {
+                height: 250px;
+            }
+            
+            .btn-custom {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <!-- Hidden question data for JavaScript -->
+        {% for i in question %}
+        <div id="item-{{ i.id }}" class="model-item" style="display: none;">                                      
+            {{ i.questionId }}
+        </div>                                                                    
+        {% endfor %}
+        
+        <!-- Header -->
+        <div class="assessment-header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h5 style="margin: 0; color: #333; font-size: 1.2rem;">
+                            Assessment: <span class="assessment-name" id="assname">{{ assessment_name }}</span>
+                        </h5>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <a class="btn-danger-custom" href="{% url 'logout' %}" role="button">
+                            <i class="fas fa-sign-out-alt me-2"></i>
+                            Exit Assessment
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid main-container">
+            <div class="row h-100">
+                <!-- Left Panel: Rules/Questions & Controls -->
+                <div class="col-md-5 mb-4">
+                    <div class="left-panel">
+                        <!-- Rules Section (BEFORE START) -->
+                        <div class="rules-section" id="rulesSection">
+                            <h3 class="rules-title">
+                                <i class="fas fa-info-circle"></i>
+                                Assessment Instructions
+                            </h3>
+                            
+                            <ul class="rules-list">
+                                <li>
+                                    <div class="rule-icon">1</div>
+                                    <span>Click <strong>Start</strong> to begin your assessment</span>
+                                </li>
+                                <li>
+                                    <div class="rule-icon">2</div>
+                                    <span>Click <strong>Start</strong> to record your answer for each question</span>
+                                </li>
+                                <li>
+                                    <div class="rule-icon">3</div>
+                                    <span>You have <strong>5 minutes per question</strong> to record your response</span>
+                                </li>
+                                <li>
+                                    <div class="rule-icon">4</div>
+                                    <span>Click <strong>Stop</strong> when finished with your answer</span>
+                                </li>
+                                <li>
+                                    <div class="rule-icon">5</div>
+                                    <span>Click <strong>Next</strong> to proceed to the next question</span>
+                                </li>
+                                <li>
+                                    <div class="rule-icon">6</div>
+                                    <span>Click <strong>Submit</strong> to complete your assessment</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Question Section (AFTER START) -->
+                        {% for i in question %}
+                        <div class="question-container" style="display: none;" data-question="{{ forloop.counter }}">
+                            <h5>
+                                <i class="fas fa-question-circle"></i>
+                                Question {{ forloop.counter }} of {{ question|length }}
+                            </h5>
+                            <p class="question-text">{{ i.question }}</p>
+                        </div>
+                        {% endfor %}
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="btn btn-custom" id="startButton">
+                                Start
+                            </button>
+                            <button class="btn btn-custom" id="nextQuestionBtn" disabled>
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Video -->
+                <div class="col-md-7">
+                    <div class="right-panel">
+                        <div class="video-container">
+                            <video id="video" autoplay playsinline muted></video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Popup -->
+        <div class="popup-window" id="popupWindow">
+            <div class="popup-box">
+                <i class="fas fa-check-circle" style="font-size: 4rem; color: #28a745; margin-bottom: 1rem;"></i>
+                <h3>Assessment Completed!</h3>
+                <p>Thank you for completing your assessment. Your responses have been submitted successfully.</p>
+                <a class="btn btn-custom" href="{% url 'feedback_page' %}" role="button">
+                    <i class="fas fa-home me-2"></i>
+                    Return to Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div class="powered-by">
+            <i class="fas fa-bolt me-2"></i>Powered by Perfect Skills
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get question IDs from hidden elements
+            const yourItems = document.querySelectorAll('.model-item');
+            const question_ids = [];
+
+            yourItems.forEach(function(currentElement) {
+                const itemName = currentElement.textContent.trim();
+                question_ids.push(itemName);
+            });
+
+            // DOM elements
+            const rulesSection = document.getElementById('rulesSection');
+            const questionContainers = document.querySelectorAll('.question-container');
+            const popupWindow = document.getElementById('popupWindow');
+            const videoElement = document.getElementById('video');
+            const startButton = document.getElementById('startButton');
+            const nextButton = document.getElementById('nextQuestionBtn');
+            const ass_name = document.getElementById("assname").innerHTML;
+            
+            let currentQuestionIndex = 0;
+            let mediaRecorder;
+            let recordedChunks = [];
+            let blobList = [];
+            let hasStartedAssessment = false;
+
+            console.log('Assessment loaded with', questionContainers.length, 'questions');
+
+            // Initialize camera and MediaRecorder
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                    .then((stream) => {
+                        console.log('Camera access granted');
+                        videoElement.srcObject = stream;
+
+                        // Create MediaRecorder
+                        mediaRecorder = new MediaRecorder(stream);
+                        mediaRecorder.onstart = handleRecordingStart;
+                        mediaRecorder.ondataavailable = handleDataAvailable;
+                        mediaRecorder.onstop = handleRecordingStop;
+
+                        // Event listeners
+                        startButton.addEventListener('click', startRecordingBtn);
+                        nextButton.addEventListener('click', nextRecording);
+                    })
+                    .catch((error) => {
+                        console.error('Error accessing camera and microphone:', error);
+                        alert('Camera access denied. Please allow camera and microphone access to continue.');
+                    });
+            } else {
+                console.error('getUserMedia is not supported in this browser');
+                alert('Your browser does not support camera access.');
+            }
+
+            function startRecordingBtn() {
+                console.log('Start button clicked, current text:', startButton.textContent);
+                
+                if (!hasStartedAssessment) {
+                    // First click - start assessment and begin recording for question 1
+                    hasStartedAssessment = true;
+                    rulesSection.style.display = 'none';
+                    questionContainers[0].style.display = 'block';
+                    nextButton.disabled = false;
+                    startButton.style.display = 'none'; // Hide start button completely
+                    
+                    // Start recording for first question
+                    mediaRecorder.start();
+                    console.log('Assessment started, recording question 1, start button hidden');
+                    return;
+                }
+                
+                if (startButton.textContent === 'Stop') {
+                    // Stop recording
+                    mediaRecorder.stop();
+                    startButton.disabled = true;
+                    nextButton.disabled = true;
+                    console.log('Recording stopped');
+                } else {
+                    // Start recording
+                    mediaRecorder.start();
+                    console.log('Recording started');
+                }
+            }
+
+            function handleRecordingStart() {
+                console.log('Recording started event');
+                startButton.textContent = 'Stop';
+                startButton.disabled = false;
+                nextButton.disabled = false;
+            }
+
+            function handleDataAvailable(event) {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                    console.log('Data chunk added:', event.data.size);
+                }
+            }
+
+            function handleRecordingStop() {
+                console.log('Recording stopped event');
+                
+                // Create blob from recorded chunks
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                blobList.push(blob);
+                console.log('Blob created and added to list. Size:', blob.size);
+                
+                // Reset for next recording
+                recordedChunks = [];
+                
+                // Reset start button
+                startButton.textContent = 'Start';
+            }
+
+            function nextRecording() {
+                console.log('Next button clicked, current question:', currentQuestionIndex);
+                
+                if (nextButton.textContent === 'Submit') {
+                    submit();
+                    return;
+                }
+
+                // Stop current recording
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                    console.log('Stopped recording for question', currentQuestionIndex + 1);
+                }
+                
+                // Wait for the stop event to process, then move to next question
+                setTimeout(() => {
+                    // Move to next question
+                    questionContainers[currentQuestionIndex].style.display = 'none';
+                    currentQuestionIndex++;
+                    
+                    if (currentQuestionIndex < questionContainers.length) {
+                        // Show next question
+                        questionContainers[currentQuestionIndex].style.display = 'block';
+                        
+                        // Start recording for new question immediately
+                        mediaRecorder.start();
+                        console.log('Started recording for question', currentQuestionIndex + 1);
+                        
+                        // Check if last question
+                        if (currentQuestionIndex === questionContainers.length - 1) {
+                            nextButton.textContent = 'Submit';
+                            console.log('Reached last question');
+                        }
+                        
+                        console.log('Moved to question', currentQuestionIndex + 1);
+                    }
+                }, 200);
+            }
+
+            function submit() {
+                console.log('Submit function called, checking if recording...');
+                
+                // Check if currently recording and stop it first
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    console.log('Still recording, stopping final recording...');
+                    mediaRecorder.stop();
+                    
+                    // Wait for the stop event to process and create the final blob
+                    setTimeout(() => {
+                        console.log('Final recording stopped, now submitting...');
+                        submitToServer();
+                    }, 500);
+                } else {
+                    console.log('No active recording, submitting directly...');
+                    submitToServer();
+                }
+            }
+
+            function submitToServer() {
+                console.log('Submitting assessment with', blobList.length, 'recordings');
+                
+                const container = new FormData();
+                container.append('ass_name', ass_name);
+                container.append('question_ids', question_ids);
+                
+                for (let i = 0; i < blobList.length; i++) {
+                    container.append(`blob${i}`, blobList[i]);
+                }
+
+                // Log FormData contents
+                for (const entry of container.entries()) {
+                    console.log('FormData entry:', entry[0], entry[1]);
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'upload/',
+                    headers: { "X-CSRFToken": getCookie("csrftoken") },
+                    mode: "same-origin",
+                    beforeSend: function () {
+                        alert("Please press OK for confirmation and sit back and wait till next instruction...!");
+                        nextButton.disabled = true;
+                        startButton.disabled = true;
+                    },
+                    success: function (response) {
+                        console.log('Upload successful:', response);
+                        if (response.success) {
+                            console.log('Submission ID:', response.submission_id);
+                            console.log('Recordings saved:', response.recordings_saved);
+                            
+                            // Stop video stream
+                            if (videoElement.srcObject) {
+                                videoElement.srcObject.getTracks().forEach(track => track.stop());
+                            }
+                            
+                            popupWindow.style.display = 'block';
+                        } else {
+                            alert('Upload failed: ' + (response.error || 'Unknown error'));
+                            nextButton.disabled = false;
+                            startButton.disabled = false;
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Upload failed:', error);
+                        console.error('Response:', xhr.responseText);
+                        
+                        let errorMessage = 'Error occurred. Please try again.';
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMessage = xhr.responseJSON.error;
+                        }
+                        
+                        alert(errorMessage);
+                        nextButton.disabled = false;
+                        startButton.disabled = false;
+                    },
+                    data: container,
+                    processData: false,
+                    contentType: false,
+                    timeout: 300000
+                });
+            }
+
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            // Debug function
+            window.debugAssessment = function() {
+                console.log('=== Assessment Debug ===');
+                console.log('Has started:', hasStartedAssessment);
+                console.log('Current question:', currentQuestionIndex + 1);
+                console.log('Total questions:', questionContainers.length);
+                console.log('Recorded blobs:', blobList.length);
+                console.log('Question IDs:', question_ids);
+                console.log('Assessment name:', ass_name);
+            };
+        });
+    </script>
+</body>
+</html>

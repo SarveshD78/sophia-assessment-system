@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Assessment Dashboard - Sophia</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/ps.png' %}">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #120599, #9109C5);
+            --primary-color: #120599;
+            --secondary-color: #9109C5;
+            --light-purple: #f8f5ff;
+            --card-shadow: 0 8px 25px rgba(18, 5, 153, 0.1);
+            --hover-shadow: 0 15px 40px rgba(18, 5, 153, 0.15);
+        }
+
+        body {
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        /* Background decorative elements */
+        .bg-decoration {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            z-index: 1;
+        }
+        
+        .bg-box1 {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 5%;
+            transform: rotate(45deg);
+        }
+        
+        .bg-box2 {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            left: 10%;
+            transform: rotate(30deg);
+        }
+        
+        .bg-box3 {
+            width: 180px;
+            height: 180px;
+            top: 20%;
+            right: 8%;
+            transform: rotate(-45deg);
+        }
+        
+        .bg-box4 {
+            width: 120px;
+            height: 120px;
+            bottom: 15%;
+            right: 15%;
+            transform: rotate(60deg);
+        }
+        
+        /* Navigation */
+        .navbar-custom {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+        
+        .logout-btn {
+            background: rgba(220, 53, 69, 0.2);
+            border-color: rgba(220, 53, 69, 0.5);
+        }
+        
+        .logout-btn:hover {
+            background: rgba(220, 53, 69, 0.4);
+            border-color: rgba(220, 53, 69, 0.7);
+        }
+        
+        /* Main content */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            padding-top: 100px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-width: 900px;
+            width: 100%;
+            color: var(--primary-color);
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .main-row {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .info-section {
+            flex: 1;
+        }
+        
+        .form-section {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .info-text {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .requirements-card {
+            background: var(--light-purple);
+            border: 2px solid rgba(145, 9, 197, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .requirements-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .requirements-list {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        
+        .code-input-section {
+            margin: 1rem 0;
+        }
+        
+        .code-input-wrapper {
+            position: relative;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .assessment-code-input {
+            width: 100%;
+            padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+            border: 3px solid var(--secondary-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            text-align: center;
+            background: white;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .assessment-code-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(145, 9, 197, 0.25);
+            transform: scale(1.02);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+            font-size: 1rem;
+        }
+        
+        .proceed-btn {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(145, 9, 197, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .proceed-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(145, 9, 197, 0.4);
+            color: white;
+        }
+        
+        .powered-by {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .alert {
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-warning {
+            background: linear-gradient(45deg, #ed8936, #dd6b20);
+            color: white;
+        }
+        
+        .alert-success {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .content-card {
+                margin: 1rem;
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+            
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1rem;
+            }
+            
+            .main-row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .requirements-list {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .navbar-custom {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Decorations -->
+    <div class="bg-decoration bg-box1"></div>
+    <div class="bg-decoration bg-box2"></div>
+    <div class="bg-decoration bg-box3"></div>
+    <div class="bg-decoration bg-box4"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar-custom">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <a href="{% url 'Home' %}" class="nav-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back
+            </a>
+            <a href="{% url 'logout' %}" class="nav-btn logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                Log Out
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-card">
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <h1 class="welcome-title">
+                <i class="fas fa-user-graduate me-3"></i>Hello, {{ user.first_name|default:"Applicant" }}!
+            </h1>
+            
+            <h2 class="welcome-subtitle">Welcome to Virtual Interview</h2>
+            
+            <p class="info-text">
+                Get ready for a game-changing revolution in hiring and getting hired! 
+                Our AI-powered assessment will evaluate your skills and competencies.
+            </p>
+
+            <!-- Requirements Section -->
+            <div class="requirements-card">
+                <div class="requirements-title">
+                    <i class="fas fa-exclamation-circle"></i>
+                    System Requirements
+                </div>
+                <div class="requirements-list">
+                    <div class="requirement-item">
+                        <i class="fas fa-video"></i>
+                        Front-facing Camera
+                    </div>
+                    <div class="requirement-item">
+                        <i class="fas fa-microphone"></i>
+                        Microphone Access
+                    </div>
+                </div>
+            </div>
+
+            <p class="info-text">
+                <strong>Paste your assessment code below to continue with the virtual interview</strong>
+            </p>
+
+            <!-- Assessment Code Form -->
+            <form action="{% url 'Start_Assessments' %}" method="GET" class="code-input-section">
+                <div class="code-input-wrapper">
+                    <i class="fas fa-barcode input-icon"></i>
+                    <input 
+                        type="text" 
+                        class="assessment-code-input" 
+                        name="assessment_code" 
+                        placeholder="Enter Assessment Code"
+                        required
+                        maxlength="6"
+                        style="text-transform: uppercase;"
+                    >
+                </div>
+                
+                <button type="submit" class="proceed-btn">
+                    <i class="fas fa-play"></i>
+                    Start Assessment
+                </button>
+            </form>
+
+            <div class="mt-4">
+                <small style="color: #666;">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Make sure you have a stable internet connection and are in a quiet environment
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Powered By -->
+    <div class="powered-by">
+        <i class="fas fa-bolt me-2"></i>Powered by Perfect Skills
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Auto-uppercase input
+        document.querySelector('.assessment-code-input').addEventListener('input', function(e) {
+            e.target.value = e.target.value.toUpperCase();
+        });
+    </script>
+</body>
+</html>

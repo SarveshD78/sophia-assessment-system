@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'image/fav.png' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <title>Assessment Feedback</title>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            min-height: 100vh;
+            color: #333;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feedback-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .thank-you-title {
+            color: #120599;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #6A696E;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .rating-title {
+            color: #333;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+        }
+
+        .feedback-form {
+            margin-bottom: 2rem;
+        }
+
+        .feedback-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .feedback-btn {
+            flex: 1;
+            min-width: 150px;
+            max-width: 200px;
+            padding: 1.2rem 1.5rem;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feedback-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-improvement {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        .btn-improvement:hover {
+            background: linear-gradient(135deg, #c82333, #a71e2a);
+            color: white;
+        }
+
+        .btn-better {
+            background: linear-gradient(135deg, #fd7e14, #e8650e);
+            color: white;
+        }
+
+        .btn-better:hover {
+            background: linear-gradient(135deg, #e8650e, #d45d0c);
+            color: white;
+        }
+
+        .btn-good {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+        }
+
+        .btn-good:hover {
+            background: linear-gradient(135deg, #1e7e34, #1a6e2e);
+            color: white;
+        }
+
+        .btn-excellent {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .btn-excellent:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            color: white;
+        }
+
+        .feedback-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .decorative-images {
+            position: fixed;
+            z-index: -1;
+        }
+
+        .image-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            opacity: 0.3;
+        }
+
+        .image-container2 {
+            position: fixed;
+            top: 0;
+            right: 0;
+            opacity: 0.3;
+        }
+
+        .image-container img,
+        .image-container2 img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .powered-by {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            color: #666;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .user-greeting {
+            color: #120599;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .completion-icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .feedback-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .thank-you-title {
+                font-size: 2rem;
+            }
+
+            .feedback-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feedback-btn {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="feedback-container">
+        <i class="fas fa-check-circle completion-icon"></i>
+        
+        <h1 class="thank-you-title">Thank You!</h1>
+        
+        <p class="user-greeting">
+            <i class="fas fa-user me-2"></i>{{ user_name }}
+        </p>
+        
+        <p class="subtitle">
+            Your assessment has been completed successfully.<br>
+            Results will be published soon.
+        </p>
+        
+        <h5 class="rating-title">
+            Rate your interview experience using the options below:
+        </h5>
+        
+        <form action="{% url 'feedback_page' %}" method="post" class="feedback-form">
+            {% csrf_token %}
+            
+            <div class="feedback-buttons">
+                <button type="submit" class="feedback-btn btn-improvement" name="feedback_type" value="ImprovementNeeded">
+                    <i class="fas fa-frown feedback-icon"></i>
+                    <span>Needs<br>Improvement</span>
+                </button>
+                
+                <button type="submit" class="feedback-btn btn-better" name="feedback_type" value="CouldBeBetter">
+                    <i class="fas fa-meh feedback-icon"></i>
+                    <span>Could Be<br>Better</span>
+                </button>
+                
+                <button type="submit" class="feedback-btn btn-good" name="feedback_type" value="Good">
+                    <i class="fas fa-smile feedback-icon"></i>
+                    <span>Good<br>Experience</span>
+                </button>
+                
+                <button type="submit" class="feedback-btn btn-excellent" name="feedback_type" value="Excellent">
+                    <i class="fas fa-grin-stars feedback-icon"></i>
+                    <span>Excellent<br>Experience</span>
+                </button>
+            </div>
+        </form>
+        
+        <p style="color: #666; font-size: 0.9rem; margin-top: 2rem;">
+            <i class="fas fa-info-circle me-2"></i>
+            You will be automatically logged out after submitting feedback.
+        </p>
+    </div>
+
+    <!-- Decorative Images (if you have them) -->
+    {% comment %}
+    <div class="image-container">
+        <img src="{% static 'image/Rectangle 4729.png' %}" alt="Decorative Image">
+    </div>
+    <div class="image-container2">
+        <img src="{% static 'image/Rectangle 4730.png' %}" alt="Decorative Image">
+    </div>
+    {% endcomment %}
+
+    <div class="powered-by">
+        <i class="fas fa-bolt me-2"></i>Powered by Perfect Skills
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Ensure button values are sent properly
+        document.querySelectorAll('.feedback-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                console.log('Button clicked:', this.value);
+                
+                // Add hidden input to ensure value is sent
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'feedback_type';
+                hiddenInput.value = this.value;
+                
+                // Remove any existing hidden input
+                const existingInput = document.querySelector('input[name="feedback_type"]');
+                if (existingInput) {
+                    existingInput.remove();
+                }
+                
+                // Add to form
+                document.querySelector('.feedback-form').appendChild(hiddenInput);
+                
+                console.log('Hidden input added with value:', this.value);
+            });
+        });
+
+        // Add loading state when feedback is submitted
+        document.querySelector('.feedback-form').addEventListener('submit', function(e) {
+            console.log('=== FEEDBACK FORM SUBMISSION ===');
+            console.log('Form data:', new FormData(e.target));
+            
+            const buttons = document.querySelectorAll('.feedback-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.6';
+            });
+            
+            // Show loading message
+            const clickedButton = e.submitter;
+            if (clickedButton) {
+                console.log('Button clicked:', clickedButton.value);
+                clickedButton.innerHTML = '<i class="fas fa-spinner fa-spin feedback-icon"></i><span>Submitting...</span>';
+            }
+        });
+    </script>
+</body>
+</html>

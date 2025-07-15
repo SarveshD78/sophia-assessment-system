@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Add Assessment - Sophia</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/ps.png' %}">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #120599, #9109C5);
+            --primary-color: #120599;
+            --secondary-color: #9109C5;
+            --light-purple: #f8f5ff;
+            --card-shadow: 0 8px 25px rgba(18, 5, 153, 0.1);
+            --hover-shadow: 0 15px 40px rgba(18, 5, 153, 0.15);
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            color: #2d3748;
+        }
+        
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
+        }
+        
+        .navbar-brand img {
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+        
+        .content-wrapper {
+            padding: 2rem;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+        
+        .card-header-custom {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem 2rem;
+            border: none;
+        }
+        
+        .form-section {
+            padding: 2rem;
+        }
+        
+        .btn-gradient {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(145, 9, 197, 0.3);
+        }
+        
+        .btn-gradient:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(145, 9, 197, 0.4);
+        }
+        
+        .btn-outline-gradient {
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 12px;
+            padding: 10px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-gradient:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(145, 9, 197, 0.4);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(145, 9, 197, 0.15);
+            background: white;
+        }
+        
+        .form-label {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+        
+        .info-card {
+            background: var(--light-purple);
+            border: 2px solid rgba(145, 9, 197, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .step-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .header-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .alert {
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+        }
+        
+        .alert-success {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+        }
+        
+        .alert-warning {
+            background: linear-gradient(45deg, #ed8936, #dd6b20);
+            color: white;
+        }
+        
+        .alert-info {
+            background: var(--light-purple);
+            color: var(--primary-color);
+            border: 2px solid rgba(145, 9, 197, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1rem;
+            }
+            
+            .form-section {
+                padding: 1.5rem;
+            }
+            
+            .header-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'Dashboard' %}">
+                <img src="{% static 'images/ps.png' %}" height="50" alt="Sophia">
+            </a>
+            
+            <div class="d-flex align-items-center">
+                <span class="navbar-text me-4 d-none d-md-block">
+                    <i class="fas fa-user-circle me-2" style="color: var(--primary-color);"></i>
+                    <span style="color: var(--primary-color); font-weight: 600;">{{ user.first_name|default:user.username }}</span>
+                </span>
+                <a class="btn btn-gradient" href="{% url 'logout' %}">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>{{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <!-- Header Section -->
+                    <div class="header-section">
+                        <h2 style="color: var(--primary-color); font-weight: 700; margin-bottom: 1rem;">
+                            <i class="fas fa-plus-circle me-3"></i>Create New Assessment
+                        </h2>
+                        <p style="color: #718096; font-size: 1.1rem; margin-bottom: 0;">
+                            Build comprehensive assessments to evaluate candidate skills and competencies
+                        </p>
+                    </div>
+
+                    <div class="row">
+                        <!-- Form Section -->
+                        <div class="col-lg-8">
+                            <div class="main-card">
+                                <div class="card-header-custom">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-clipboard-list me-2"></i>Assessment Details
+                                    </h5>
+                                </div>
+                                <div class="form-section">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        
+                                        <!-- Assessment Name -->
+                                        <div class="mb-4">
+                                            <label for="{{ form.assessment_name.id_for_label }}" class="form-label">
+                                                <i class="fas fa-tag me-2"></i>{{ form.assessment_name.label }}
+                                            </label>
+                                            {{ form.assessment_name }}
+                                            {% if form.assessment_name.errors %}
+                                                <div class="text-danger mt-2">
+                                                    {% for error in form.assessment_name.errors %}
+                                                        <small><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</small>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Assessment Type -->
+                                        <div class="mb-4">
+                                            <label for="{{ form.assessment_type.id_for_label }}" class="form-label">
+                                                <i class="fas fa-list-alt me-2"></i>{{ form.assessment_type.label }}
+                                            </label>
+                                            {{ form.assessment_type }}
+                                            {% if form.assessment_type.errors %}
+                                                <div class="text-danger mt-2">
+                                                    {% for error in form.assessment_type.errors %}
+                                                        <small><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</small>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Assessment Description -->
+                                        <div class="mb-4">
+                                            <label for="{{ form.assessment_discription.id_for_label }}" class="form-label">
+                                                <i class="fas fa-align-left me-2"></i>{{ form.assessment_discription.label }}
+                                            </label>
+                                            {{ form.assessment_discription }}
+                                            {% if form.assessment_discription.errors %}
+                                                <div class="text-danger mt-2">
+                                                    {% for error in form.assessment_discription.errors %}
+                                                        <small><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</small>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Info Box -->
+                                        <div class="info-card">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-info-circle me-3" style="font-size: 1.5rem; color: var(--secondary-color);"></i>
+                                                <div>
+                                                    <strong style="color: var(--primary-color);">Auto-Generated Code</strong>
+                                                    <p class="mb-0" style="color: #718096; font-size: 0.9rem;">
+                                                        A unique 6-character assessment code will be automatically created for sharing with candidates.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="{% url 'Dashboard' %}" class="btn btn-outline-gradient">
+                                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                                            </a>
+                                            <button type="submit" class="btn btn-gradient">
+                                                <i class="fas fa-save me-2"></i>Create Assessment
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Steps Section -->
+                        <div class="col-lg-4">
+                            <div class="main-card">
+                                <div class="card-header-custom">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-route me-2"></i>Next Steps
+                                    </h6>
+                                </div>
+                                <div class="form-section">
+                                    <div class="step-card mb-3">
+                                        <div class="step-icon" style="background: linear-gradient(45deg, #48bb78, #38a169);">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                        <h6 style="color: var(--primary-color); margin-bottom: 0.5rem;">Assessment Created</h6>
+                                        <p class="text-muted small mb-0">Your assessment will be saved with a unique code</p>
+                                    </div>
+
+                                    <div class="step-card mb-3">
+                                        <div class="step-icon" style="background: var(--primary-gradient);">
+                                            <i class="fas fa-question-circle"></i>
+                                        </div>
+                                        <h6 style="color: var(--primary-color); margin-bottom: 0.5rem;">Add Questions</h6>
+                                        <p class="text-muted small mb-0">Build your question bank for evaluation</p>
+                                    </div>
+
+                                    <div class="step-card">
+                                        <div class="step-icon" style="background: linear-gradient(45deg, #ed8936, #dd6b20);">
+                                            <i class="fas fa-share-alt"></i>
+                                        </div>
+                                        <h6 style="color: var(--primary-color); margin-bottom: 0.5rem;">Share with Candidates</h6>
+                                        <p class="text-muted small mb-0">Distribute the assessment code to participants</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

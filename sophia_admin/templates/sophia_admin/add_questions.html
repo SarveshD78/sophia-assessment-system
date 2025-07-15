@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Add Questions - {{ assessment.assessment_name }}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/ps.png' %}">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #120599, #9109C5);
+            --primary-color: #120599;
+            --secondary-color: #9109C5;
+            --light-purple: #f8f5ff;
+            --card-shadow: 0 8px 25px rgba(18, 5, 153, 0.1);
+            --hover-shadow: 0 15px 40px rgba(18, 5, 153, 0.15);
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            color: #2d3748;
+        }
+        
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
+        }
+        
+        .navbar-brand img {
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+        
+        .content-wrapper {
+            padding: 2rem;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+        
+        .header-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+        
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+        
+        .card-header-custom {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1.5rem;
+            border: none;
+        }
+        
+        .form-section {
+            padding: 1.5rem;
+        }
+        
+        .btn-gradient {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(145, 9, 197, 0.3);
+        }
+        
+        .btn-gradient:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(145, 9, 197, 0.4);
+        }
+        
+        .btn-outline-gradient {
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 12px;
+            padding: 10px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-gradient:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(145, 9, 197, 0.4);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(145, 9, 197, 0.15);
+            background: white;
+        }
+        
+        .form-label {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+        
+        .question-item {
+            background: var(--light-purple);
+            border: 2px solid rgba(145, 9, 197, 0.1);
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .question-item:hover {
+            border-color: var(--secondary-color);
+            transform: translateX(4px);
+            box-shadow: 0 4px 15px rgba(145, 9, 197, 0.1);
+        }
+        
+        .stats-badge {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(145, 9, 197, 0.3);
+        }
+        
+        .assessment-type-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .badge-technical {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .badge-hr {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+        }
+        
+        .assessment-code-display {
+            background: var(--light-purple);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary-color);
+            font-weight: 600;
+            border: 2px dashed var(--secondary-color);
+            display: inline-block;
+        }
+        
+        .questions-container {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        
+        .questions-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .questions-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .questions-container::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 10px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #718096;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: #cbd5e0;
+            margin-bottom: 1rem;
+        }
+        
+        .alert {
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+        }
+        
+        .alert-success {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+        }
+        
+        .alert-warning {
+            background: linear-gradient(45deg, #ed8936, #dd6b20);
+            color: white;
+        }
+        
+        .alert-info {
+            background: var(--light-purple);
+            color: var(--primary-color);
+            border: 2px solid rgba(145, 9, 197, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1rem;
+            }
+            
+            .form-section {
+                padding: 1rem;
+            }
+            
+            .header-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'Dashboard' %}">
+                <img src="{% static 'images/ps.png' %}" height="50" alt="Sophia">
+            </a>
+            
+            <div class="d-flex align-items-center">
+                <span class="navbar-text me-4 d-none d-md-block">
+                    <i class="fas fa-user-circle me-2" style="color: var(--primary-color);"></i>
+                    <span style="color: var(--primary-color); font-weight: 600;">{{ user.first_name|default:user.username }}</span>
+                </span>
+                <a class="btn btn-gradient" href="{% url 'logout' %}">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-info-circle me-2"></i>{{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="container-fluid">
+            <!-- Header Section -->
+            <div class="header-section">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h3 style="color: var(--primary-color); font-weight: 700; margin-bottom: 1rem;">
+                            <i class="fas fa-question-circle me-3"></i>{{ assessment.assessment_name }}
+                        </h3>
+                        
+                        <!-- Assessment Type Badge -->
+                        {% if assessment.assessment_type == 'Technical' %}
+                            <div class="assessment-type-badge badge-technical">
+                                <i class="fas fa-code me-1"></i>Technical Assessment
+                            </div>
+                        {% elif assessment.assessment_type == 'HR' %}
+                            <div class="assessment-type-badge badge-hr">
+                                <i class="fas fa-users me-1"></i>HR Assessment
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-2">
+                            <strong style="color: var(--primary-color);">Assessment Code:</strong>
+                            <span class="assessment-code-display">{{ assessment.assessment_code }}</span>
+                        </div>
+                        
+                        {% if assessment.assessment_discription %}
+                            <p style="color: #718096; margin-bottom: 0;">{{ assessment.assessment_discription }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="stats-badge">
+                            <h4 class="mb-1">{{ total_questions }}</h4>
+                            <small>Total Questions</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Add Question Form -->
+                <div class="col-lg-5">
+                    <div class="main-card">
+                        <div class="card-header-custom">
+                            <h6 class="mb-0">
+                                <i class="fas fa-plus me-2"></i>Add New Question
+                            </h6>
+                        </div>
+                        <div class="form-section">
+                            <form method="POST">
+                                {% csrf_token %}
+                                
+                                <!-- Question -->
+                                <div class="mb-4">
+                                    <label for="{{ form.question.id_for_label }}" class="form-label">
+                                        <i class="fas fa-edit me-2"></i>{{ form.question.label }}
+                                    </label>
+                                    {{ form.question }}
+                                    {% if form.question.errors %}
+                                        <div class="text-danger mt-2">
+                                            {% for error in form.question.errors %}
+                                                <small><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Correct Answer -->
+                                <div class="mb-4">
+                                    <label for="{{ form.correctanswer.id_for_label }}" class="form-label">
+                                        <i class="fas fa-check-circle me-2"></i>{{ form.correctanswer.label }}
+                                    </label>
+                                    {{ form.correctanswer }}
+                                    {% if form.correctanswer.errors %}
+                                        <div class="text-danger mt-2">
+                                            {% for error in form.correctanswer.errors %}
+                                                <small><i class="fas fa-exclamation-circle me-1"></i>{{ error }}</small>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="d-grid gap-2 mb-3">
+                                    <button type="submit" class="btn btn-gradient">
+                                        <i class="fas fa-plus me-2"></i>Add Question
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <!-- Navigation -->
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'Dashboard' %}" class="btn btn-outline-gradient flex-fill">
+                                    <i class="fas fa-arrow-left me-2"></i>Dashboard
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questions List -->
+                <div class="col-lg-7">
+                    <div class="main-card">
+                        <div class="card-header-custom">
+                            <h6 class="mb-0">
+                                <i class="fas fa-list me-2"></i>Questions Bank ({{ total_questions }})
+                            </h6>
+                        </div>
+                        <div class="form-section">
+                            {% if questions %}
+                                <div class="questions-container">
+                                    {% for question in questions %}
+                                    <div class="question-item p-3 mb-3">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h6 style="color: var(--primary-color); margin-bottom: 0;">
+                                                <i class="fas fa-hashtag me-2"></i>Question {{ forloop.counter }}
+                                            </h6>
+                                            <span class="badge" style="background: var(--primary-gradient);">
+                                                ID: {{ question.questionId }}
+                                            </span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <strong style="color: var(--primary-color);">Q:</strong>
+                                            <span class="ms-2">{{ question.question }}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <strong class="text-success">Answer:</strong>
+                                            <span class="ms-2">{{ question.correctanswer }}</span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="empty-state">
+                                    <i class="fas fa-question-circle"></i>
+                                    <h5 style="color: #4a5568; margin-bottom: 1rem;">No Questions Added Yet</h5>
+                                    <p>Start building your assessment by adding your first question using the form on the left.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

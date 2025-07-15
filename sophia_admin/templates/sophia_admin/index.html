@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Virtual Interview - Welcome</title>
+</head>
+
+<body id="grad1">
+
+    <div class="container">
+
+        <!-- Dynamic Background Design Starts-->
+        <div id="margin1">
+            <div id="page1"></div>
+            <div id="box6"></div>
+            <div id="box7"></div>
+            <div id="box8"></div>
+            <div id="box9"></div>
+            <div id="logo1">
+                <img src="{% static 'images/fav.png' %}" style="height: 7vh;width: 7vh;">
+            </div>
+        </div>
+        <!-- Dynamic Background Design Ends-->
+
+        <!--Page Content Starts-->
+        <div id="margin2">
+            <div id="contentMain">
+
+                <div id="content1">Welcome to</div><br>
+                <div id="content2">Virtual Interview</div>
+                <br><br><br><br>
+                <div id="content1">Get ready for game changing revolution in <u><b>hiring</b></u> & <u><b>getting
+                            hired!</b></u></div>
+                <br><br><br><br>
+                <div id="content1">
+                    <span>
+                        <a href="{% url 'login' %}"><button id="button1"> Sign In</button></a>
+                        <span style="display: inline-block;width: 6.66%;"></span>
+                        <a href="{% url 'signup' %}"><button id="button1">Sign Up</button></a>
+                    </span>
+                </div>
+                <br><br>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

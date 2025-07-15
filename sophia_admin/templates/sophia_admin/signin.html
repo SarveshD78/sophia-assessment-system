@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Virtual Interview - Sign In</title>
+</head>
+
+<body id="grad1">
+    <!-- Display messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="container">
+
+        <!-- Dynamic Background Design Starts-->
+        <div id="margin1">
+            <div id="page1"></div>
+            <div id="box1"></div>
+            <div id="box2"></div>
+            <div id="box3"></div>
+            <div id="box4"></div>
+            <div id="box5"></div>
+            <div id="logo1" style="height: 7vh;width: 7vh;"> 
+                <img src="{% static 'images/fav.png' %}">
+            </div>
+        </div>
+        <!-- Dynamic Background Design Ends-->
+
+        <!--Page Content1 Starts-->
+        <div id="infoBox">
+            <h1 id="header1">Sign In</h1>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+            <span id="span1">
+                <span id="underl1">
+                    <input type="text" id="uname" name="username" placeholder="Username" required>
+                    <i class="fas fa-user" id="unImg1"></i>
+                </span>
+            </span>
+            <br>
+            <span id="span1">
+                <span id="underl1">
+                    <input type="password" id="passwd" name="password" placeholder="Password" required>
+                    <i class="fas fa-lock" id="psImg1"></i>
+                </span>
+            </span>
+            <br><br>
+
+            <span id="span1">
+                <button type="submit" id="btn1" style="height: 4vh;">
+                    <p id="btnLbl1">Continue</p>
+                    <span style="display: inline-block;width: 35%;"></span>
+                    <i class="fas fa-arrow-right" id="btImg1"></i>
+                    <span style="display: inline-block;width: 5%;"></span>
+                </button>
+            </span>
+        </form>
+            <br>
+            <span id="span1">
+                <p id="hr1"></p>
+                <p id="pdTxt1">OR</p>
+                <p id="hr1"></p>
+            </span>
+            <br>
+
+            <span id="span1">
+                <p id="lbl2">Don't have an Account?</p><a href="{% url 'signup' %}" id="aref2">Sign Up</a>
+            </span>
+
+        </div>
+        <!--Page Content1 Ends-->
+
+        <!--Page Content2 Starts-->
+        <div id="wlcmBox">
+
+            <span id="span1">
+                <div id="wlLbl1">Welcome to</div>
+            </span>
+            <br>
+
+            <span id="span1">
+                <div id="viLbl1">Virtual Interview</div>
+            </span>
+            <br><br><br>
+
+            <span id="span1">
+                <div id="sgnLbl1">By Signing in, you agree with Perfect Skills</div>
+            </span>
+            <br>
+            <span id="span1">
+                <a href="#" id="aref3">Terms & Conditions</a>
+                <div id="anLbl1">and</div><a href="#" id="aref4">Privacy Policy</a>
+            </span>
+        </div>
+        <!--Page Content2 Ends-->
+    </div>
+
+</body>
+
+</html>
