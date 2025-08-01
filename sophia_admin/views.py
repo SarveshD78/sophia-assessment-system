@@ -14,6 +14,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 import weasyprint
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
 
 
 def Home(request):
@@ -255,3 +256,31 @@ def download_analysis_pdf(request, submission_id):
         
     except Exception as e:
         return HttpResponse(f"Error generating PDF: {str(e)}", status=500)
+    
+
+
+
+def candidates_view(request):
+    # Get all final results with user data
+    candidates = FinalResult.objects.all().order_by('-completion_date')
+    
+    # Handle delete actions
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        submission_id = request.POST.get('submission_id')
+        user_name = request.POST.get('user_name')
+        
+        if action == 'delete_user':
+            # Delete user completely
+            User.objects.filter(username=user_name).delete()
+            messages.success(request, f'User {user_name} deleted successfully!')
+            
+        elif action == 'delete_assessment':
+            # Delete only this assessment submission
+            FinalResult.objects.filter(submission_id=submission_id).delete()
+            Recording.objects.filter(submission_id=submission_id).delete()
+            messages.success(request, 'Assessment submission deleted successfully!')
+            
+        return redirect('candidates')
+    
+    return render(request, 'sophia_admin/candidates.html', {'candidates': candidates})

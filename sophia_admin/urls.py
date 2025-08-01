@@ -14,4 +14,5 @@ urlpatterns = [
     path('analysis/<slug:submission_id>/', views.Analysis, name='Result'),
     # In your urls.py
 path('download-pdf/<str:submission_id>/', views.download_analysis_pdf, name='download_pdf'),
+path('candidates/', views.candidates_view, name='candidates'),
 ]
