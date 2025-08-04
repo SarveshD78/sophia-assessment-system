@@ -24,7 +24,8 @@ SECRET_KEY = 'django-insecure-tq+aa!r#0(mw9a^*g&rt9gyn+e57wrns9#i095(dv7*vc!g=#f
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['limeeducation.in', 'www.limeeducation.in', '127.0.0.1', 'localhost','*']
+
 
 # Application definition
 INSTALLED_APPS = [
